@@ -25,11 +25,10 @@ if (!cmdPageName) {
     program.help()
     return
 }
-console.log(cmdPath, cmdPageName)
 
-let projectPath = path.resolve(__dirname + '/../', cmdPath, cmdPageName)
+let projectPath = path.resolve(__dirname + '/../', cmdPath)
 
-const templteList = glob.sync("template/*", {
+const templteList = glob.sync( path.resolve(projectPath, "template/*"), {
     absolute: true
 })
 
@@ -39,13 +38,15 @@ fs.mkdirAsync(cmdPageName, '755')
             fs.readFileAsync(fileName, 'utf-8')
                 .then(function(content) {
                     let name = path.parse(fileName).base
-                    fs.writeFileAsync(path.resolve(projectPath, name), content, {
+                    fs.writeFileAsync(path.resolve(cmdPageName, name), content, {
                         encoding: 'utf8',
                         mode: 0o755,
                         flag: 'w+'
                     }).catch(function(err) {
-                        console.log(err)
+                        console.error("ERROR",err)
                     })
                 })
         })
+    }).catch(function(err){
+        console.error("ERROR",err)
     })
