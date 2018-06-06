@@ -1,2 +1,4 @@
 # mpvue-generator
-mpvue generator like rials.
+mpvue generator like rails.
+
+## Usage
